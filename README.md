@@ -1,78 +1,85 @@
-# Asthma-Disease-Prediction-Using-Big-Data-Spark
-Project Overview:
+# Asthma Disease Prediction Using Big Data and Apache Spark
 
-This project leverages Apache Spark to preprocess and analyze a large-scale asthma disease dataset from Kaggle, containing health data for 2,392 patients. By analyzing clinical, environmental, and lifestyle factors, our goal is to uncover key contributors to asthma and predict its likelihood. This project demonstrates big data handling with Spark and machine learning techniques, enhancing our understanding of asthma risks and patterns.
- 
-Dataset:
+## Project Overview
+This project utilizes **Apache Spark** to preprocess and analyze a large-scale **asthma disease dataset** from Kaggle, containing health data for **2,392 patients**. By examining clinical, environmental, and lifestyle factors, we aim to identify key contributors to asthma and predict its likelihood. This project showcases **big data processing with Spark** and **machine learning techniques**, contributing to a deeper understanding of asthma risks and patterns.
 
-The project uses the Asthma Disease dataset from Kaggle, which contains extensive health data from 2,392 patients. This dataset includes a variety of features crucial for analyzing asthma risk factors and patient health profiles
+## Dataset
+The project is based on the **Asthma Disease dataset from Kaggle**, which includes a diverse set of health indicators for 2,392 patients. This dataset encompasses critical features for assessing asthma risk factors and patient health profiles.
 
-Goal: 
+## Goal
+- Identify significant factors influencing asthma risk.
+- Utilize big data processing techniques to support healthcare research.
 
-Identify significant factors influencing asthma risk and apply big data processing techniques to support healthcare research.
+## Technologies Used
+- **Apache Spark**: For scalable data processing on a cluster environment.
+- **Python**: Used for data analysis and modeling with **pandas, scikit-learn, and seaborn**.
+- **Machine Learning Models**: Logistic Regression, Linear Regression, and K-Means Clustering.
 
-Technologies Used:
+## Setup and Configuration
+### 1. Virtual Cluster Setup
+- Connected to the **Michigan Tech network** via the **F5 Big-IP Edge VPN client**.
+- Configured network settings to establish a **Spark cluster** with:
+  - `hadoop1` as the **master node**.
+  - `hadoop2` as the **worker node**.
 
-Apache Spark: For data processing and scaling on a cluster environment.
-Python: For data analysis and modeling with libraries like pandas, scikit-learn, and seaborn.
-Machine Learning Models: Logistic Regression, Linear Regression, K-Means Clustering.
+### 2. Spark Setup
+- Installed **Apache Spark** in `/opt/spark`.
+- Configured Spark **master and worker nodes**, with:
+  - Master running on **hadoop1**.
+  - Workers deployed across both VMs.
 
-Setup and Configuration:
+### 3. Running the Analysis
+- Submitted preprocessing and analysis jobs using:
+  ```bash
+  /opt/spark/bin/spark-submit --master spark://hadoop1:7077 /opt/asthma.py
+  ```
 
-1.Virtual Cluster Setup:
+## Data Preprocessing
+### 1. Handling Missing Values
+- Replaced missing values in critical variables (**Age, BMI, DietQuality, LungFunctionFEV1**) with their median.
 
-Accessed the Michigan Tech network via the F5 Big-IP Edge VPN client.
-Configured network settings to establish a Spark cluster on VMs (hadoop1 as the master and hadoop2 as the worker node).
+### 2. Encoding Categorical Variables
+- Applied **label encoding** to categorical features (**Gender, FamilyHistoryAsthma**) for compatibility with machine learning models.
 
-2.Spark Setup:
+### 3. Scaling
+- Normalized continuous variables to a range of **0-1** using **MinMaxScaler** to improve model performance.
 
-Installed Spark in /opt/spark.
-Configured Spark master and worker nodes, starting the master on hadoop1 and workers on both VMs.
+### 4. Binning
+- Converted continuous features (**Age, BMI, LungFunctionFEV1**) into bins for better interpretability and model optimization.
 
-3.Running the Analysis:
+## Data Splitting
+To ensure effective model training and evaluation, we divided the dataset into **training (70%)** and **testing (30%)** sets.
 
-Submitted preprocessing and analysis jobs using:
+- **Classification Task**: Used for **asthma diagnosis prediction** with Logistic Regression.
+- **Regression Task**: Used to predict **lung function (LungFunctionFEV1)** using Linear Regression.
 
-/opt/spark/bin/spark-submit --master spark://hadoop1:7077 /opt/asthma.py
+## Statistical Analysis
+### 1. Correlation Analysis
+- Assessed relationships between features like **BMI, DietQuality, and LungFunctionFEV1**.
+- Heatmaps revealed low correlations, suggesting **non-linear models** might be more effective.
 
-Data Preprocessing:
+### 2. Chi-Square Tests
+- Analyzed associations between categorical variables (**Gender, PetAllergy**) and **asthma diagnosis**.
+- Identified categorical features with potential predictive value.
 
-1.Handling Missing Values: Filled missing values in key variables like Age, BMI, DietQuality, and lung function measures to improve model performance.
+### 3. K-Means Clustering
+- Clustered patients into **three groups** based on continuous variables.
+- Helped segment patient health profiles for personalized asthma management.
 
-2.Encoding Categorical Variables: Used label encoding on features such as Gender and FamilyHistoryAsthma for model compatibility.
+## Machine Learning Models
+### 1. Logistic Regression (Classification)
+- Achieved **94.8% accuracy** in predicting asthma diagnosis.
+- Feature scaling and binning enhanced model performance.
 
-3.Scaling: Scaled continuous variables to a range of 0-1 using MinMaxScaler, normalizing values for balanced input.
+### 2. Linear Regression (Regression)
+- Built a model to predict **LungFunctionFEV1**.
+- Attained an **R² score of 1.0**, indicating high accuracy, but further validation is needed to avoid overfitting.
 
-4.Binning: Applied binning to continuous features (Age, BMI, LungFunctionFEV1) to enhance interpretability.
+## Results
+- Demonstrated **Apache Spark’s capability** to process large datasets efficiently.
+- Achieved **high accuracy** in both classification and regression tasks.
+- Statistical analysis provided **insights into asthma risk factors** and patient segmentation.
 
-Data Splitting:
+## Conclusion
+This project highlights the **power of big data tools** like Apache Spark in healthcare analytics. By efficiently processing and analyzing large datasets, we identified crucial **asthma risk factors** and built predictive models to enhance early detection. The findings contribute to **improving asthma management and prevention strategies** through **data-driven insights**.
 
-To ensure effective model training and evaluation, the dataset was divided into training and testing sets:
-
-1.Classification Task: For asthma diagnosis prediction, the data was split with 70% allocated for training and 30% for testing. This split enabled the logistic regression model to be trained effectively and evaluated independently.
-
-2.Regression Task: For predicting lung function (LungFunctionFEV1), the same 70/30 split was used to train and test the linear regression model, allowing for consistent evaluation across both tasks.
-
-By splitting the dataset appropriately, the project achieved balanced training and testing data, providing an accurate measure of model performance and preventing
-
-Statistical Analysis:
-
-1.Correlation Analysis: Examined correlations among features like BMI, DietQuality, and lung function measures, using heatmaps to visualize relationships. The low correlation levels suggested complex interactions, indicating that non-linear models may be more appropriate for analysis.
-
-2.Chi-Square Tests: Explored associations between categorical variables (e.g., Gender, PetAllergy) and asthma diagnosis. These tests provided insights into relationships among features, helping identify categorical factors with potential predictive value for asthma.
-
-3.K-Means Clustering: Implemented K-Means clustering to segment patients into three clusters, based on continuous variables. These clusters reflect common health profiles, supporting tailored asthma management.
-
-Modeling:
-
-1.Logistic Regression: Achieved ~94.8% accuracy for asthma diagnosis by training a Logistic Regression model, optimizing it with binning and scaling of features. This model provided a solid classification accuracy, confirming the effectiveness of preprocessing.
-
-2.Linear Regression: Built a linear regression model to predict lung function (LungFunctionFEV1) based on continuous health factors. The model achieved an R² of 1.0, though additional testing is needed to ensure robustness and prevent overfitting.
-
-Results:
-
-The project successfully demonstrated Spark’s capability to handle large datasets efficiently. Models for classification and regression were implemented with high accuracy, and statistical analysis provided insights into asthma risk factors and patient clusters.
-
-Conclusion:
-
-This project highlights the utility of big data tools like Spark in healthcare data analysis, identifying valuable insights into asthma risk factors. By efficiently processing data and building predictive models, this analysis contributes to understanding health patterns and potentially enhancing asthma prevention strategies.
